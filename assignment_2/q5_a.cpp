@@ -1,53 +1,45 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
-int main()
-{
-
-    int rows,column;
-    int i,k=0,j;
-    cout << "enter number of rows and column of matrix=";
-    cin >> rows >> column;
-
-    int **a;
-    a=new int *[rows];
-    for(i=0;i<rows;i++)
-    {
-        a[i]=new int[column];
-    }
-    int b[rows];
-    
-    cout <<"enter diagnol element=";
-    for(i=0;i<rows;i++)
-    {
-        cin >> b[i];
+class Diagonal {
+    int n;      // size of matrix (n x n)
+    int *A;     // 1D array to store diagonal elements
+public:
+    Diagonal(int n) {
+        this->n = n;
+        A = new int[n];
+        for (int i = 0; i < n; i++) A[i] = 0;
     }
 
-    for(i=0;i<rows;i++)
-    {
-        for(j=0;j<column;j++)
-        {
-            if(i==j)
-            {
-                a[i][j]=b[k];
-                k++;
-            }
+    void set(int i, int j, int x) {
+        if (i == j) A[i - 1] = x;   // store only diagonal
+    }
 
-            else
-            {
-                a[i][j]=0;
+    int get(int i, int j) {
+        if (i == j) return A[i - 1];
+        return 0;
+    }
+
+    void display() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j) cout << A[i] << " ";
+                else cout << "0 ";
             }
+            cout << endl;
         }
     }
 
-    for(i=0;i<rows;i++)
-    {
-        for(j=0;j<column;j++)
-        {
-            cout <<a[i][j] <<"  ";
-        }
-        cout << endl;
-    }
+    ~Diagonal() { delete[] A; }
+};
 
+int main() {
+    Diagonal d(4);
 
+    d.set(1,1,5);
+    d.set(2,2,8);
+    d.set(3,3,9);
+    d.set(4,4,12);
+
+    d.display();
 }
