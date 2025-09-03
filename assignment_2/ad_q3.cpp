@@ -1,22 +1,39 @@
-#include<iostream>
-#include<Algorithm>
+#include <iostream>
+#include <string>
+#include <algorithm>
+
 using namespace std;
 
-bool sol(string str1,string str2){
-	int arr1[26]={0};
-	int arr2[26]={0};
-	for(int i=0;i<str1.size();i++){
-		arr1[str1[i] - 'a']++;
-	}
-	for(int i=0;i<str2.size();i++){
-		arr2[str2[i] - 'a']++;
-	}
-	
-	return equal(arr1, arr1+26, arr2);
-}
+class AnagramChecker {
+private:
+    string str1, str2;
 
-int main(){
-	string st1 = "abcdef";
-	string st2 = "fbacde";
-	cout<<sol(st1,st2);
+public:
+    AnagramChecker(const string& s1, const string& s2) : str1(s1), str2(s2) {}
+
+    bool areAnagrams() {
+        if (str1.length() != str2.length()) return false;
+
+        string sorted1 = str1;
+        string sorted2 = str2;
+
+        sort(sorted1.begin(), sorted1.end());
+        sort(sorted2.begin(), sorted2.end());
+
+        return sorted1 == sorted2;
+    }
+};
+
+int main() {
+    string s1, s2;
+    cin >> s1 >> s2;
+
+    AnagramChecker checker(s1, s2);
+    if (checker.areAnagrams()) {
+        cout << "YES\n";
+    } else {
+        cout << "NO\n";
+    }
+
+    return 0;
 }
