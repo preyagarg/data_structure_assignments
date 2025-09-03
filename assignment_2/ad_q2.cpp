@@ -1,23 +1,54 @@
 #include <iostream>
+#include <string>
+
 using namespace std;
 
-bool sol(string str){
-    int arr[26] = {0};
-    for (int i = 0; i < str.size(); i++)
-    {
-        arr[str[i] - 'a']++;
+class StringSplitter {
+private:
+    string s;
+
+    bool isSubstring(const string& str, const string& sub) {
+        return str.find(sub) != string::npos;
     }
-    for (int i = 0; i < str.size(); i++)
-    {
-        if(arr[i]==3) return true;
+
+public:
+    StringSplitter(const string& input) : s(input) {}
+
+    bool canSplit() {
+        int n = s.size();
+
+        for (int i = 1; i < n - 1; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                string A = s.substr(0, i);
+                string B = s.substr(i, j - i);
+                string C = s.substr(j);
+
+                if (!B.empty() && isSubstring(A, B) && isSubstring(C, B)) {
+                    return true;
+                }
+                if (!A.empty() && isSubstring(B, A) && isSubstring(C, A)) {
+                    return true;
+                }
+                if (!C.empty() && isSubstring(A, C) && isSubstring(B, C)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
-    return false;
+};
+
+int main() {
+    string input;
+    cin >> input;
+
+    StringSplitter splitter(input);
+    if (splitter.canSplit()) {
+        cout << "YES\n";
+    } else {
+        cout << "NO\n";
+    }
+
+    return 0;
 }
 
-int main(){
-
-    string str = "abcabab";
-    cout<<sol(str);
-
-
-}
